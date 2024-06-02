@@ -2,34 +2,38 @@ import { Pokemon } from "@/types";
 import { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { getPokemons } from "../page";
 interface Props {
   params: {
-    id: string;
+    name: string;
   },
   searchParams: object;
 }
 
 
 export async function generateStaticParams() {
-  const staticOneHundred = Array.from({ length: 100 }, (_, i) => ({ id: `${i + 1}` }));
 
-  return staticOneHundred;
+  const pokemons = await getPokemons(151);
+
+  const staticOneHundredAndFiftyFive = pokemons.map(({ name }) => ({ name }));
+
+  return staticOneHundredAndFiftyFive;
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params: { name } }: Props): Promise<Metadata> {
 
   try {
-    const pokemon = await getPokemon(params.id);
+    const pokemon = await getPokemon(name);
 
     return {
-      title: `Pokemon ${pokemon.id} - ${pokemon.name}`,
+      title: `Pokemon ${pokemon.name}`,
       description: `${pokemon.name} page`
     };
 
   } catch (error) {
     return {
       title: `Pokemon Not Found`,
-      description: `Pokemon with ID: ${params.id} Not Found Error Page`
+      description: `Pokemon  ${name.toUpperCase} Not Found Error Page`
     };
   }
 
@@ -38,13 +42,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 
-const getPokemon = async (id: string): Promise<Pokemon> => {
+const getPokemon = async (name: string): Promise<Pokemon> => {
 
   try {
 
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`, {
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`, {
       // cache: 'force-cache',
-      next:{
+      next: {
         revalidate: 60 * 60 * 24 * 7 * 4 * 6 // 6 months
       }
     }).then((res) => res.json());
@@ -61,7 +65,7 @@ const getPokemon = async (id: string): Promise<Pokemon> => {
 
 export default async function PokemonPage({ params }: Props) {
 
-  const pokemon = await getPokemon(params.id);
+  const pokemon = await getPokemon(params.name);
 
 
   return (

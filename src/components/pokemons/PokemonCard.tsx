@@ -1,4 +1,4 @@
-import { SimplePokemon } from "@/app/types";
+import { SimplePokemon } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { IoHeartOutline } from "react-icons/io5";
@@ -24,7 +24,7 @@ export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
           <p className="text-sm text-gray-100">{id}</p>
           <div className="mt-5">
             <Link
-              href={`pokemon/${id}`}
+              href={`pokemons/${name}`}
               className="border rounded-full py-2 px-4 text-xs font-semibold text-gray-100"
             >
               Read More

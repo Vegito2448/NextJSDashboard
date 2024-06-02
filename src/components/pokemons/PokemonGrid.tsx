@@ -1,4 +1,4 @@
-import { SimplePokemon } from "@/app/types";
+import { SimplePokemon } from "@/types";
 import { PokemonCard } from "./PokemonCard";
 
 interface Props {
@@ -13,7 +13,7 @@ export const PokemonGrid = ({ pokemons }: Props) => {
     <div className="flex flex-wrap gap-10 items-center justify-center">
       {
         pokemons.map((pokemon) => (
-          <PokemonCard key={pokemon.id} pokemon={pokemon} />
+          <PokemonCard key={pokemon.id + pokemon.name} pokemon={pokemon} />
         ))
 
       }
