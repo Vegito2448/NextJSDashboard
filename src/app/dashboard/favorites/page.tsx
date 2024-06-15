@@ -2,8 +2,8 @@ import { PokemonGrid } from '@/components';
 import { PokemonsResponse, SimplePokemon } from "@/types";
 
 export const metadata = {  // 👈 Add this metadata object
-  title: 'Pokemons List',
-  description: 'List of Pokemons',
+  title: 'Favorite Pokemons List',
+  description: 'List of Favorite Pokemons',
 };
 
 export const getPokemons = async (limit = 20, offset = 0): Promise<SimplePokemon[]> => {
@@ -23,7 +23,7 @@ const PokemonsPage = async () => {
   const pokemons = await getPokemons(151);
   return (
     <div className="flex flex-col">
-      <span className="text-5xl my-2 text-center">Pokemons List <small className="text-blue-500">Static</small></span>
+      <span className="text-5xl my-2 text-center">Favorite Pokemons List <small className="text-blue-500">Global State</small></span>
       <PokemonGrid pokemons={pokemons} />
 
     </div>

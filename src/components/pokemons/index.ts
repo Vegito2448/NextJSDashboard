@@ -1,1 +1,3 @@
-export { PokemonGrid } from './PokemonGrid';
+export * from './PokemonCard';
+export * from './PokemonGrid';
+
