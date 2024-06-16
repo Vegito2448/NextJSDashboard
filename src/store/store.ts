@@ -12,6 +12,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 
 export const store = configureStore({
   reducer: rootReducer,
+  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageMiddleware),
 });
 
 // Get the type of our store variable

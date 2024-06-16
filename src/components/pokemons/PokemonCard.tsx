@@ -1,7 +1,9 @@
+'use client';
+import { toggleFavorite, useAppDispatch, useAppSelector } from "@/store";
 import { SimplePokemon } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import { IoHeartOutline } from "react-icons/io5";
+import { IoHeart, IoHeartOutline } from "react-icons/io5";
 
 interface PokemonCardProps {
   pokemon: SimplePokemon;
@@ -9,6 +11,15 @@ interface PokemonCardProps {
 
 export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
   const { id, name } = pokemon;
+  const dispatch = useAppDispatch();
+
+  const isFavorite = useAppSelector(({ pokemons: { favorites } }) => Boolean(favorites[id]));
+
+  const onToggleFavorite = () => {
+    dispatch(toggleFavorite(pokemon));
+  }
+
+
   return (
     <div className="mx-auto right-0 mt-2 w-60">
       <div className="flex flex-col bg-white rounded overflow-hidden shadow-lg">
@@ -32,17 +43,20 @@ export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
           </div>
         </div>
         <div className="border-b">
-          <Link href="/account/campaigns" className="px-4 py-2 hover:bg-gray-100 flex">
+          <div
+            onClick={onToggleFavorite}
+            className="px-4 py-2 hover:bg-gray-100 flex cursor-pointer">
             <div className="text-red-600 flex flex-col text-center justify-center">
-              <IoHeartOutline />
+              {isFavorite ? <IoHeart /> :
+                <IoHeartOutline />}
             </div>
             <div className="pl-3">
-              <p className="text-sm font-medium text-gray-800 leading-none">
+              {isFavorite && <p className="text-sm font-medium text-gray-800 leading-none">
                 Favorite
-              </p>
-              <p className="text-xs text-gray-500">Isn&apos;t this Pokemon cute?</p>
+              </p>}
+              <p className="text-xs text-gray-500">{!isFavorite && "Isn't this Pokemon cute?"} Click to Change..</p>
             </div>
-          </Link>
+          </div>
         </div>
 
       </div>
