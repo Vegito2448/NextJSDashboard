@@ -1,12 +1,11 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import { Provider } from 'react-redux';
-import { setFavoritePokemons, store } from './index';
+import { ReactNode, useEffect } from "react";
+import { Provider } from "react-redux";
+import { setFavoritePokemons, store } from "./index";
 
 interface Props {
-  children: React.ReactNode;
-
+  children: ReactNode;
 }
 
 export const Providers = ({ children }: Props) => {

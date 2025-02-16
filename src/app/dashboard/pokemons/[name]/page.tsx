@@ -4,10 +4,10 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getPokemons } from "../page";
 interface Props {
-  params: {
+  params: Promise<{
     name: string;
-  },
-  searchParams: object;
+  }>,
+  searchParams: Promise<object>;
 }
 
 
@@ -20,7 +20,12 @@ export async function generateStaticParams() {
   return staticOneHundredAndFiftyFive;
 }
 
-export async function generateMetadata({ params: { name } }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    name
+  } = params;
 
   try {
     const pokemon = await getPokemon(name);
@@ -36,9 +41,6 @@ export async function generateMetadata({ params: { name } }: Props): Promise<Met
       description: `Pokemon  ${name.toUpperCase} Not Found Error Page`
     };
   }
-
-
-
 }
 
 
@@ -63,7 +65,8 @@ const getPokemon = async (name: string): Promise<Pokemon> => {
 };
 
 
-export default async function PokemonPage({ params }: Props) {
+export default async function PokemonPage(props: Props) {
+  const params = await props.params;
 
   const pokemon = await getPokemon(params.name);
 
